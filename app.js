@@ -37,19 +37,24 @@ function showContacts() {
         nameObj = JSON.parse(name);
         numbObj = JSON.parse(telno);
     }
+    newNameObj=[]
+    newNameObj=newNameObj.concat(nameObj);
+    sorted = newNameObj.sort((a, b) => {
+        return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    });
     let html = "";
     nameObj.forEach(function (element, index) {
         html += `
         <div class="contactCard my-2 mx-2" style="max-width: 20rem; border: 3px solid lightgray;border-radius: 8px; padding:5px ;">
         <div class="card">
   <ul id="det" class=" conDetails list-group list-group-flush">
-    <li id="conName${index}" class="list-group-item">${nameObj[index]}</li>
-    <li id="conNum${index}" class="list-group-item">${numbObj[index]}</li>
+    <li id="conName${nameObj.indexOf(sorted[index])}" class="list-group-item">${sorted[index]}</li>
+    <li id="conNum${nameObj.indexOf(sorted[index])}" class="list-group-item">${numbObj[nameObj.indexOf(sorted[index])]}</li>
   </ul>
 </div>
         <div style="width : 35%; margin : 0.5rem auto;">
-            <button id="edit${index}" type="button" onclick="editContact(this.id)" class=" btn btn-outline-primary">Edit</button>
-            <button id="${index}" type="button" onclick="deleteContact(this.id)" class="btn btn-outline-primary" >-</button>
+            <button id="edit${nameObj.indexOf(sorted[index])}" type="button" onclick="editContact(this.id)" class=" btn btn-outline-primary">Edit</button>
+            <button id="${nameObj.indexOf(sorted[index])}" type="button" onclick="deleteContact(this.id)" class="btn btn-outline-primary" >-</button>
         </div>
     </div>`
     })
